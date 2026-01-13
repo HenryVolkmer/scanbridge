@@ -1,0 +1,17 @@
+{
+    "isAutodiscovery": true,
+    "devices": [
+        {
+            "IPv4": "192.168.0.157"
+        }
+    ],
+    "smtp": {
+        "host": "smtp.myhost.com",
+        "port": 587,
+        "user": "username",
+        "pass": "password",
+        "sender": "foo@myhost.com",
+        "recipient": "dude@myhost.com",
+        "subject": "your scan"
+    }
+}

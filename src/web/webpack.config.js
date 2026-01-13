@@ -1,0 +1,56 @@
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+module.exports = {
+  entry: path.resolve(__dirname, "src/index.jsx"),
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "app.js",
+    publicPath: "/",
+    clean: true
+  },
+
+  resolve: {
+    extensions: [".js", ".jsx"]
+  },
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, "src/index.html")
+    })
+  ],
+
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: [
+              "@babel/preset-env",
+              "@babel/preset-react"
+            ]
+          }          
+        }
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
+      }
+    ]
+  },
+
+  devServer: {
+    static: {
+      directory: path.resolve(__dirname, "dist")
+    },
+    port: 3000,
+    hot: true,
+    historyApiFallback: true,
+    proxy: {
+      "/api": "http://localhost:8080"
+    }
+  }
+};
