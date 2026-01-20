@@ -1,6 +1,12 @@
 package main
 
 import (
+	"path"
+	"net"
+	"net/http"
+	"net/url"
+	"net/http/httptest"
+	"os"
 	"testing"
 )
 
@@ -48,5 +54,40 @@ func TestCantCreateConfigByInvalidDto(t *testing.T) {
 	})
 	if err == nil {
 		t.Fatal(err)
+	}
+}
+
+func TestCanFetchCapabilitiesAndCreateDevice(t *testing.T) {
+
+	scannerCapabilitiesXML, err := os.ReadFile(path.Join("testdata/caps.xml"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/eSCL/ScannerCapabilities" {
+			t.Fatalf("unexpected path: %s", r.URL.Path)
+		}
+		w.Header().Set("Content-Type", "application/xml")
+		w.WriteHeader(http.StatusOK)
+		w.Write(scannerCapabilitiesXML)
+	}))
+	defer server.Close()
+
+	// Server-URL -> IP extrahieren
+	u, err := url.Parse(server.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	host, _, _ := net.SplitHostPort(u.Host)
+	ip := net.ParseIP(host)
+
+	dev, err := NewScanDevice(server.Client(), &ip)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if dev == nil {
+		t.Fatal("device is nil")
 	}
 }

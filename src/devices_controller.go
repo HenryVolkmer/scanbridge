@@ -51,11 +51,7 @@ func (dc *DevicesController) discover() ([]*ScanDevice, error) {
 				log.Println(err)
 				continue
 			}
-
-			// device.Origin = entry
-
 			buffer = append(buffer, device)
-			
 		}
 	}(entries)
 
