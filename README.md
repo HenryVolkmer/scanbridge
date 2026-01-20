@@ -13,17 +13,7 @@ make sure you have [go](https://go.dev/) and [npm](https://www.npmjs.com/) insta
 
 ## Run
 
-You have to specify the Scan-Device with the `-device` Flag.
-
-In order to show all available devices run `scanimage -L`
-
-Something like this should be outputed:
-
-```
-device escl:https://192.168.0.157:443' is a HP 0138B60D6ED (HP Color Laser MFP 178 179) platen,adf scanner
-``` 
-
-now you can run scanbridge with `scanbridge -device=escl:https://192.168.0.157:443 -bind=127.0.0.1:8080` and open http://127.0.0.1:8080 in your Webbrowser.
+you can run scanbridge with `scanbridge -bind=127.0.0.1:8080` and open http://127.0.0.1:8080 in your Webbrowser.
 
 ## API
 
@@ -34,9 +24,9 @@ now you can run scanbridge with `scanbridge -device=escl:https://192.168.0.157:4
 
 ### optional configuration file
 
-one can start scanbridge by passing a configuration file: `scanbridge -config=/path/to/scanbridge.conf`.
+one can start scanbridge by passing a configuration file: `scanbridge -config=/path/to/config.json`.
 
-A Sample-Configuration can be found [here](./scanbridge.conf.dist).
+A Sample-Configuration can be found [here](./config.json.dist).
 
 ## systemd unit
 
